@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <title>Safe Zone Map – Disaster Rescue</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- <link rel="stylesheet" href="../css/safeZone.css" /> -->
+<!-- <link rel="stylesheet" href="../css/style.css" /> -->
+ <style>
+  *,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #f5f7fb;
+  --white: #ffffff;
+  --navy: #102a63;
+  --navy-soft: #1c3c87;
+  --green: #19a463;
+  --green-soft: #e4f7ee;
+  --gray-100: #e5e7eb;
+  --gray-200: #d1d5db;
+  --gray-500: #6b7280;
+  --gray-700: #374151;
+  --red: #f04438;
+  --shadow-soft: 0 14px 40px rgba(15, 23, 42, 0.08);
+  --radius-xl: 18px;
+  --radius-pill: 999px;
+  --transition: 0.2s ease;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background: var(--bg);
+  color: var(--gray-800);
+}
+    /* ---------------- NAVBAR ---------------- */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 60px;
+        background: #fff;
+        box-shadow: 0 1px 5px rgba(0,0,0,0.08);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        overflow: hidden;
+    }
+    .navbar > * { position: relative; z-index: 1; }
+    .navbar::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        width: 200%;
+        height: 40px;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='40' viewBox='0 0 120 40'><path d='M0 20 Q30 0 60 20 T120 20 V40 H0 Z' fill='%23009087'/></svg>");
+        background-repeat: repeat-x;
+        background-size: 120px 40px;
+        opacity: 0.22;
+        animation: wave-x-1 9s linear infinite, wave-y 5s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 0;
+    }
+    .navbar::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -10px;
+        width: 200%;
+        height: 46px;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='46' viewBox='0 0 120 46'><path d='M0 23 Q30 3 60 23 T120 23 V46 H0 Z' fill='%2300b3a2'/></svg>");
+        background-repeat: repeat-x;
+        background-size: 120px 46px;
+        opacity: 0.16;
+        animation: wave-x-2 12s linear infinite, wave-y 6s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 0;
+    }
+    @keyframes wave-x-1 { from { background-position-x: 0; } to { background-position-x: -240px; } }
+    @keyframes wave-x-2 { from { background-position-x: 0; } to { background-position-x: 240px; } }
+    @keyframes wave-y { 0% { transform: translateY(0); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0); } }
+    .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 20px;
+        font-weight: 700;
+        color: #0a1f44;
+    }
+    .nav-menu a {
+        margin: 0 15px;
+        text-decoration: none;
+        color: #0a1f44;
+        font-weight: 500;
+    }
+    .nav-menu a.active {
+        background: #0a1f44;
+        color: #fff;
+        padding: 8px 18px;
+        border-radius: 8px;
+    }
+    .nav-buttons button {
+        padding: 10px 18px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+    }
+    .btn-emergency {
+        background: #e63946;
+        color: #fff;
+        margin-right: 10px;
+    }
+    .btn-login {
+        background: #fff;
+        border: 1.5px solid #ccc;
+    }
+
+
+.btn {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: var(--radius-pill);
+  padding: 8px 16px;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.btn-icon {
+  font-size: 15px;
+}
+
+.btn-emergency {
+  background: var(--red);
+  color: #fff;
+  box-shadow: 0 10px 25px rgba(239, 68, 68, 0.3);
+}
+
+.btn-emergency:hover {
+  background: #d92b20;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--gray-200);
+  color: var(--gray-700);
+}
+
+.btn-outline:hover {
+  background: #f3f4ff;
+  border-color: #c7d2fe;
+}
+
+.btn-primary {
+  background: var(--navy);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: var(--navy-soft);
+}
+
+.full-width {
+  width: 100%;
+}
+
+/* ==== Hero ==== */
+.hero {
+  text-align: center;
+  padding: 50px 16px 34px;
+  color: #ecfdf3;
+  height: 300px;
+  position: relative;
+  overflow: hidden;
+  opacity: 0.8;
+
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url(https://i.postimg.cc/cLHrPrkq/map.jpg);
+  background-size: cover;
+  background-position: center;
+  filter: blur(2px);
+  z-index: 0;
+}
+
+.hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+.hero h1 {
+  margin: 0;
+  color: rgb(253, 249, 3);
+  font-size: 60px;
+  font-weight: 700;
+}
+
+.hero p {
+  margin-top: 12px;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 16px;
+}
+
+/* ==== Search ==== */
+.search-section {
+  padding: 22px 40px 8px;
+}
+
+.search-box {
+  max-width: 700px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 999px;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid #e5e7eb;
+}
+
+.search-icon {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 14px;
+  background: transparent;
+}
+
+/* ==== Layout ==== */
+.main-layout {
+  padding: 12px 40px 40px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1.35fr);
+  gap: 20px;
+}
+
+/* ==== Map Panel ==== */
+.map-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.map-box {
+  position: relative;
+  background: #e5f2ff;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+  padding: 16px;
+  min-height: 360px;
+}
+
+.map-embed {
+  position: absolute;
+  inset: 16px;
+  width: calc(100% - 32px);
+  height: calc(100% - 32px);
+  border: 0;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+}
+
+.map-grid {
+  position: absolute;
+  inset: 16px;
+  background-image: linear-gradient(
+      rgba(148, 163, 184, 0.16) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(148, 163, 184, 0.16) 1px,
+      transparent 1px
+    );
+  background-size: 60px 60px;
+  border-radius: 16px;
+}
+
+/* markers */
+.marker {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.marker-safe {
+  background: #22c55e;
+  box-shadow: 0 6px 14px rgba(22, 163, 74, 0.4);
+}
+
+.marker-safe::before {
+  content: "📍";
+  font-size: 14px;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.15));
+}
+
+.marker-user {
+  top: 50%;
+  left: 50%;
+  background: #0f172a;
+  display: none;
+}
+
+.marker-user::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #fff;
+}
+
+/* zoom */
+.map-zoom {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.zoom-btn {
+  border: none;
+  outline: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.zoom-btn:hover {
+  background: #eff6ff;
+}
+
+/* legend */
+.map-legend {
+  position: absolute;
+  left: 22px;
+  bottom: 24px;
+  background: rgba(255, 255, 255, 0.96);
+  padding: 8px 12px;
+  border-radius: 999px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
+  font-size: 12px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+}
+
+.legend-dot-user {
+  background: #0f172a;
+}
+
+.legend-dot-safe {
+  background: #16a34a;
+}
+
+/* ==== List Panel ==== */
+.list-panel {
+  background: #f9fafb;
+  border-radius: var(--radius-xl);
+  padding: 18px 18px 22px;
+  box-shadow: var(--shadow-soft);
+}
+
+.list-header h2 {
+  margin: 0 0 12px;
+  font-size: 18px;
+}
+
+.safezone-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: 420px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* card */
+.safe-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 16px 18px 14px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 14px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+}
+
+.safe-card-left {
+  display: flex;
+  align-items: flex-start;
+}
+
+.safe-card-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 16px;
+  background: #ecfdf3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.safe-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.safe-card-title {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.safe-card-address {
+  font-size: 13px;
+  color: var(--gray-500);
+}
+
+.safe-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--gray-500);
+}
+
+.safe-card-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.safe-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.tag-pill {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  background: #ecfdf3;
+  color: #15803d;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.safe-card-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  background: #dcfce7;
+  color: #15803d;
+}
+
+/* card buttons */
+.card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.btn-secondary {
+  background: var(--navy);
+  color: #fff;
+  padding: 7px 14px;
+  font-size: 13px;
+}
+
+.btn-secondary:hover {
+  background: var(--navy-soft);
+}
+
+.btn-ghost {
+  background: #f9fafb;
+  border-radius: var(--radius-pill);
+  padding: 7px 14px;
+  font-size: 13px;
+  border: 1px solid #e5e7eb;
+}
+
+.btn-ghost:hover {
+  background: #eef2ff;
+}
+
+/* ==== Footer ==== */
+/* ===== Footer CTA Section ===== */
+.footer-cta {
+  background: #111827;        /* dark gray */
+  color: #f9fafb;
+  padding: 60px 16px 30px;
+  text-align: center;
+}
+
+.footer-cta-inner {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.footer-cta-emoji {
+  font-size: 38px;
+  margin-bottom: 12px;
+}
+
+.footer-cta h2 {
+  margin: 0 0 10px;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.footer-cta p {
+  margin: 0 0 22px;
+  font-size: 15px;
+  color: #e5e7eb;
+}
+
+.footer-cta-button {
+  border: none;
+  outline: none;
+  padding: 10px 26px;
+  border-radius: 999px;
+  background: #f9fafb;
+  color: #111827;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.footer-cta-button:hover {
+  background: #e5e7eb;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.45);
+  transform: translateY(-1px);
+}
+
+/* ===== Footer Main ===== */
+.site-footer {
+  background: #111827;
+  color: #d1d5db;
+  padding: 0 32px 20px;
+}
+
+.footer-divider {
+  border-top: 1px solid #4b5563;
+  max-width: 1200px;
+  margin: 0 auto 24px;
+}
+
+.footer-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1.2fr 1.2fr 1.6fr;
+  gap: 30px;
+  padding-bottom: 18px;
+}
+
+.footer-col {
+  font-size: 14px;
+}
+
+/* logo & text */
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.footer-logo-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1f2937;
+  font-size: 22px;
+}
+
+.footer-logo-title {
+  font-weight: 600;
+  color: #f9fafb;
+  font-size: 15px;
+}
+
+.footer-logo-subtitle {
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+.footer-text {
+  color: #9ca3af;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* headings & links */
+.footer-heading {
+  margin: 0 0 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #f9fafb;
+}
+
+.footer-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-list li {
+  margin-bottom: 6px;
+  color: #d1d5db;
+}
+
+.footer-link {
+  color: #e5e7eb;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+}
+
+/* bottom line */
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  border-top: 1px so
+}
+
+/* ==== Responsive ==== */
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 12px 20px;
+  }
+
+  .navbar-center {
+    display: none;
+  }
+
+  .main-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding: 32px 16px 22px;
+  }
+
+  .hero h1 {
+    font-size: 30px;
+  }
+
+  .search-section {
+    padding: 16px;
+  }
+
+  .main-layout {
+    padding: 12px 16px 30px;
+  }
+
+  .list-panel {
+    padding: 14px 14px 18px;
+  }
+
+  .safe-card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .safe-card-right {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+/*style.css*/
+
+    body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background-color: #f5f7fb;
+        color: #1a1a1a;
+    }
+
+    /* ---------------- NAVBAR ---------------- */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 60px;
+        background: #fff;
+        box-shadow: 0 1px 5px rgba(0,0,0,0.08);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        overflow: hidden;
+    }
+    .navbar > * { position: relative; z-index: 1; }
+    .navbar::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        width: 200%;
+        height: 40px;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='40' viewBox='0 0 120 40'><path d='M0 20 Q30 0 60 20 T120 20 V40 H0 Z' fill='%23009087'/></svg>");
+        background-repeat: repeat-x;
+        background-size: 120px 40px;
+        opacity: 0.22;
+        animation: wave-x-1 9s linear infinite, wave-y 5s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 0;
+    }
+    .navbar::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -10px;
+        width: 200%;
+        height: 46px;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='46' viewBox='0 0 120 46'><path d='M0 23 Q30 3 60 23 T120 23 V46 H0 Z' fill='%2300b3a2'/></svg>");
+        background-repeat: repeat-x;
+        background-size: 120px 46px;
+        opacity: 0.16;
+        animation: wave-x-2 12s linear infinite, wave-y 6s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 0;
+    }
+    @keyframes wave-x-1 { from { background-position-x: 0; } to { background-position-x: -240px; } }
+    @keyframes wave-x-2 { from { background-position-x: 0; } to { background-position-x: 240px; } }
+    @keyframes wave-y { 0% { transform: translateY(0); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0); } }
+    .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 20px;
+        font-weight: 700;
+        color: #0a1f44;
+    }
+    .nav-menu a {
+        margin: 0 15px;
+        text-decoration: none;
+        color: #0a1f44;
+        font-weight: 500;
+    }
+    .nav-menu a.active {
+        background: #0a1f44;
+        color: #fff;
+        padding: 8px 18px;
+        border-radius: 8px;
+    }
+    .nav-buttons button {
+        padding: 10px 18px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+    }
+    .btn-emergency {
+        background: #e63946;
+        color: #fff;
+        margin-right: 10px;
+    }
+    .btn-login {
+        background: #fff;
+        border: 1.5px solid #ccc;
+    }
+
+    /* ---------------- HERO SECTION ---------------- */
+    .hero {
+        background-image: url(https://i.postimg.cc/13tfbfCb/mainback.jpg);
+        background-repeat: no-repeat;
+        background-position: 100%;
+        background-size: 100%;
+        padding: 120px 20px;
+        text-align: center;
+        color: #fff;
+        position: relative; /* needed for glass overlay */
+        overflow: hidden;
+    }
+
+    /* Glassmorphism overlay over hero background */
+    .hero::before {
+        
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+        backdrop-filter: blur(2px) saturate(120%);
+        -webkit-backdrop-filter: blur(2px) saturate(120%);
+        z-index: 0;
+        border: 1px solid rgba(255,255,255,0.25);
+        pointer-events: none;
+    }
+
+    /* Ensure hero content sits above the overlay */
+    .hero > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Glass panels for title and description for readability */
+    .hero h1,
+    .hero p {
+        display: inline-block;
+        padding: 12px 18px;
+        border-radius: 16px;
+    }
+    .hero h1 {
+        font-size: 52px;
+        font-weight: 800;
+        margin-bottom: 10px;
+    }
+    .hero h1 span { color: #f4a100; }
+    .hero p {
+        font-size: 18px;
+        max-width: 650px;
+        margin: auto;
+        opacity: 1;
+    }
+    .hero-buttons {
+        margin-top: 35px;
+    }
+    .hero-buttons button {
+        padding: 15px 32px;
+        font-size: 18px;
+        border-radius: 10px;
+        border: none;
+        margin: 10px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+    .hero-buttons .btn-sos.button2 {
+        background-color: #e63946;
+        color: white;
+    }
+    .btn-guide {
+        background: white;
+        color: #1a1a1a;
+    }
+
+    /* ---------------- CARD SECTIONS ---------------- */
+    .section-title {
+        text-align: center;
+        margin: 70px 0 20px;
+        font-size: 38px;
+        font-weight: 800;
+    }
+    .section-sub {
+        text-align: center;
+        font-size: 18px;
+        opacity: 0.8;
+        margin-bottom: 50px;
+    }
+
+    .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+        width: 90%;
+        margin: auto;
+    }
+
+    .card {
+        background: #fff;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    }
+    .card h3 {
+        margin-top: 10px;
+        font-size: 22px;
+        font-weight: 700;
+    }
+    .card p {
+        font-size: 15px;
+        opacity: 0.8;
+        margin-top: 6px;
+    }
+    .card button {
+        margin-top: 15px;
+        background: none;
+        border: none;
+        color: #133B76;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    .card .learn-more {
+        position: relative;
+        padding: 4px 0;
+        transition: transform .2s ease, color .2s ease;
+    }
+    .card .learn-more::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -2px;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, #133B76, #f4a100);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform .25s ease;
+    }
+    .card .learn-more::after {
+        content: "→";
+        margin-left: 8px;
+        display: inline-block;
+        transition: transform .2s ease;
+    }
+    .card .learn-more:hover {
+        transform: translateY(-1px);
+        color: #0b2d5f;
+    }
+    .card .learn-more:hover::before {
+        transform: scaleX(1);
+    }
+    .card .learn-more:hover::after {
+        transform: translateX(4px);
+    }
+    .card .icon {
+        margin-right: 8px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    /* ---------------- FOOTER ---------------- */
+    footer {
+        background: #112B54;
+        color: white;
+        padding: 50px 60px;
+        margin-top: 60px;
+    }
+    .footer-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 30px;
+    }
+    footer h4 {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+    footer p, footer a {
+        font-size: 14px;
+        opacity: 0.9;
+        text-decoration: none;
+        color: white;
+        line-height: 1.6;
+    }
+
+    #splash {
+        position: fixed;
+        inset: 0;
+        background: #000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+    }
+    #splash::before {
+        display: none;
+    }
+    #splash video {
+        max-width: 100%;
+        max-height: 100%;
+        filter: contrast(1.05) saturate(1.1) hue-rotate(-8deg);
+    }
+    .splash-hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity .6s ease, visibility .6s ease;
+    }
+    .ui-neon {
+        position: relative;
+        background: transparent;
+        color: var(--color);
+        border: 2px solid var(--color);
+        box-shadow: inset 0 0 0 rgba(0,0,0,0);
+        transition: all .25s ease;
+    }
+    .ui-neon:hover {
+        background: var(--color);
+        color: #fff;
+        box-shadow: 0 0 12px var(--color), 0 0 24px var(--color);
+        transform: translateY(-1px);
+    }
+    .ui-gradient {
+        background: linear-gradient(90deg, #e63946, #f4a100, #133B76);
+        background-size: 200% 200%;
+        color: #fff;
+        transition: background-position .4s ease, transform .2s ease, box-shadow .2s ease;
+    }
+    .ui-gradient:hover {
+        background-position: right center;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        transform: translateY(-1px);
+    }
+
+    .button2 {
+      display: inline-block;
+      transition: all 0.2s ease-in;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      color: #090909;
+      padding: 0.7em 1.7em;
+      cursor: pointer;
+      font-size: 18px;
+      border-radius: 0.5em;
+      background: #e8e8e8;
+      border: 1px solid #e8e8e8;
+      box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
+    }
+    .button2:active {
+      color: #666;
+      box-shadow: inset 4px 4px 12px #c5c5c5, inset -4px -4px 12px #ffffff;
+    }
+    .button2:before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%) scaleY(1) scaleX(1.25);
+      top: 100%;
+      width: 140%;
+      height: 180%;
+      background-color: rgba(0, 0, 0, 0.05);
+      border-radius: 50%;
+      display: block;
+      transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
+      z-index: -1;
+    }
+    .button2:after {
+      content: "";
+      position: absolute;
+      left: 55%;
+      transform: translateX(-50%) scaleY(1) scaleX(1.45);
+      top: 180%;
+      width: 160%;
+      height: 190%;
+      background-color: #009087;
+      border-radius: 50%;
+      display: block;
+      transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
+      z-index: -1;
+    }
+    .button2:hover {
+      color: #ffffff;
+      border: 1px solid #009087;
+    }
+    .button2:hover:before {
+      top: -35%;
+      background-color: #009087;
+      transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+    }
+    .button2:hover:after {
+      top: -45%;
+      background-color: #009087;
+      transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+    }
+
+
+ </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="nav-left">
+      🛡️ Disaster Rescue  
+    </div>
+    <div class="nav-menu">
+      <a href="./index.html">Home</a>
+      <a href="./typeOfDisaster.html">Types of Disasters</a>
+      <a href="./Emergency-guide.html">Emergency Guide</a>
+      <a href="./rescue-teams.html">Rescue Teams</a>
+      <a href="./safe-zones.html" class="active">Safe Zones</a>
+      <a href="./sos.html">SOS</a>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn-emergency" onclick="location.href='./sos.html'">📞 Emergency</button>
+      <button class="btn-login">Login</button>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Safe Zone Map</h1>
+    <p>
+      Find the nearest evacuation centers and safe zones in your area during
+      emergencies.
+    </p>
+  </section>
+
+  <!-- Search -->
+  <section class="search-section">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search by location or zone name..."
+      />
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="main-layout">
+    <!-- Map Panel -->
+    <section class="map-panel">
+      <div class="map-box">
+        <iframe id="mapEmbed" class="map-embed" src="https://www.google.com/maps?q=evacuation%20center&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="map-legend">
+          <div class="legend-item">
+            <span class="legend-dot legend-dot-user"></span>
+            <span>Your Location</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot legend-dot-safe"></span>
+            <span>Safe Zone</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary full-width" id="useLocationBtn" type="button">
+        <span class="btn-icon">📍</span>
+        Use My Location
+      </button>
+    </section>
+
+    <!-- List Panel -->
+    <section class="list-panel">
+      <div class="list-header">
+        <h2>Nearby Safe Zones <span id="safeZoneCount">(0)</span></h2>
+      </div>
+      <div id="safeZoneList" class="safezone-list">
+        <!-- Cards inserted by JS -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer (same for all pages) -->
+ <!-- ===== Footer CTA + Footer ===== -->
+<section class="footer-cta">
+  <div class="footer-cta-inner">
+    <div class="footer-cta-emoji">👨‍👩‍👧‍👦</div>
+    <h2>Create a Family Emergency Plan</h2>
+    <p>
+      Talk with your family about meeting points, emergency contacts,
+      and evacuation routes. Practice your plan regularly.
+    </p>
+    <button id="viewRescueTeamsBtn" class="footer-cta-button">
+      View Rescue Teams →
+    </button>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-divider"></div>
+
+  <div class="footer-main">
+    <!-- Column 1 -->
+    <div class="footer-col">
+      <div class="footer-logo">
+        <div class="footer-logo-icon">🛡️</div>
+        <div>
+          <div class="footer-logo-title">Disaster Rescue</div>
+          <div class="footer-logo-subtitle">Response Center</div>
+        </div>
+      </div>
+      <p class="footer-text">
+        Providing critical disaster-response information, emergency
+        contacts, and coordination support when every second matters.
+      </p>
+    </div>
+
+    <!-- Column 2 -->
+    <div class="footer-col">
+      <h3 class="footer-heading">Quick Links</h3>
+      <ul class="footer-list">
+        <li><a href="#" class="footer-link">Types of Disasters</a></li>
+        <li><a href="#" class="footer-link">Emergency Guide</a></li>
+        <li><a href="#" class="footer-link">Rescue Teams</a></li>
+        <li><a href="#" class="footer-link">Safe Zones</a></li>
+      </ul>
+    </div>
+
+    <!-- Column 3 -->
+    <div class="footer-col">
+      <h3 class="footer-heading">Emergency Numbers</h3>
+      <ul class="footer-list">
+        <li>📞 Emergency: <strong>112</strong></li>
+        <li>🔥 Fire: <strong>101</strong></li>
+        <li>🚑 Ambulance: <strong>102</strong></li>
+        <li>👮 Police: <strong>100</strong></li>
+      </ul>
+    </div>
+
+    <!-- Column 4 -->
+    <div class="footer-col">
+       <h4>Contact Us</h4>
+            <p>Exception Handlers Team⬇️</p>
+            <p>1. Aniket Jagdale</p>
+            <p>2. Yogesh Ingulkar</p>
+            <p>3. Shubham Gavli</p>
+            <p>4. Dipak Khedkar</p>
+            <p>5. Aditya Sadekar</p>
+        </div>  
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+            © 2025 Disaster Rescue Response Center. All rights reserved.
+  </div>
+</footer>
+
+
+  <script>
+    // Sample data for safe zones
+const safeZones = [
+  {
+    id: 1,
+    name: "City Community Center",
+    address: "123 Main Street, Central District",
+    distance: "1.2 km",
+    capacity: 500,
+    status: "Open",
+    tags: ["Food", "Water", "Medical Aid", "Beds"],
+    icon: "🏢",
+    phone: "+91-800-111-0001"
+  },
+  {
+    id: 2,
+    name: "Government School Complex",
+    address: "456 Education Lane, North Zone",
+    distance: "2.5 km",
+    capacity: 800,
+    status: "Open",
+    tags: ["Water", "Sanitation", "Open Ground"],
+    icon: "🎓",
+    phone: "+91-800-111-0002"
+  },
+  {
+    id: 3,
+    name: "Central Park Evacuation Point",
+    address: "Central Park, Downtown Area",
+    distance: "3.0 km",
+    capacity: 2000,
+    status: "Open",
+    tags: ["Open Space", "Assembly Point"],
+    icon: "🌳",
+    phone: "+91-800-111-0003"
+  },
+  {
+    id: 4,
+    name: "City Stadium Shelter",
+    address: "789 Arena Road, West Block",
+    distance: "4.5 km",
+    capacity: 3500,
+    status: "Open",
+    tags: ["Food", "Water", "Beds"],
+    icon: "🏟️",
+    phone: "+91-800-111-0004"
+  },
+  {
+    id: 5,
+    name: "Riverside Relief Camp",
+    address: "21 Riverside Lane, East Bank",
+    distance: "5.2 km",
+    capacity: 1500,
+    status: "Open",
+    tags: ["Medical Aid", "Water"],
+    icon: "⛺",
+    phone: "+91-800-111-0005"
+  }
+];
+
+const listContainer = document.getElementById("safeZoneList");
+const countSpan = document.getElementById("safeZoneCount");
+const searchInput = document.getElementById("searchInput");
+const useLocationBtn = document.getElementById("useLocationBtn");
+const userMarker = document.getElementById("userMarker");
+const mapEmbed = document.getElementById("mapEmbed");
+
+function updateMap(query) {
+  if (!mapEmbed) return;
+  const url = `https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed`;
+  mapEmbed.src = url;
+}
+
+function renderSafeZones(list) {
+  listContainer.innerHTML = "";
+
+  if (!list.length) {
+    listContainer.innerHTML =
+      `<p style="font-size:13px;color:#6b7280;">No safe zones found for this search.</p>`;
+    countSpan.textContent = "(0)";
+    return;
+  }
+
+  list.forEach((zone) => {
+    const card = document.createElement("article");
+    card.className = "safe-card";
+
+    card.innerHTML = `
+      <div class="safe-card-left">
+        <div class="safe-card-icon">${zone.icon}</div>
+      </div>
+      <div class="safe-card-body">
+        <div class="safe-card-title">${zone.name}</div>
+        <div class="safe-card-address">${zone.address}</div>
+        <div class="safe-card-meta">
+          <span>📍 ${zone.distance}</span>
+          <span>👥 Capacity: ${zone.capacity}</span>
+        </div>
+        <div class="safe-card-tags">
+          ${zone.tags
+            .map(
+              (t) =>
+                `<span class="tag-pill">✔ ${t}</span>`
+            )
+            .join("")}
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-secondary" data-directions="${zone.name}">
+            ✈ Directions
+          </button>
+          <button class="btn btn-ghost" data-call="${zone.phone}">
+            📞 Call
+          </button>
+        </div>
+      </div>
+      <div class="safe-card-right">
+        <span class="status-badge">${zone.status}</span>
+      </div>
+    `;
+
+    listContainer.appendChild(card);
+  });
+
+  countSpan.textContent = `(${list.length})`;
+  // Focus map on first result
+  if (list.length) {
+    updateMap(list[0].name);
+  }
+}
+
+// Search/filter
+searchInput.addEventListener("input", (e) => {
+  const query = e.target.value.toLowerCase().trim();
+  const filtered = safeZones.filter((z) => {
+    return (
+      z.name.toLowerCase().includes(query) ||
+      z.address.toLowerCase().includes(query)
+    );
+  });
+  renderSafeZones(filtered);
+});
+
+// Delegated events for Directions & Call buttons
+listContainer.addEventListener("click", (e) => {
+  const directionsName = e.target.getAttribute("data-directions");
+  const callNumber = e.target.getAttribute("data-call");
+
+  if (directionsName) {
+    const query = encodeURIComponent(directionsName);
+    const url = `https://www.google.com/maps/search/?api=1&query=${query}`;
+    window.open(url, "_blank");
+    updateMap(directionsName);
+  }
+
+  if (callNumber) {
+    window.location.href = `tel:${callNumber}`;
+  }
+
+  const card = e.target.closest('.safe-card');
+  if (card) {
+    const titleEl = card.querySelector('.safe-card-title');
+    if (titleEl) updateMap(titleEl.textContent);
+  }
+});
+
+// Use My Location (simple simulation)
+useLocationBtn.addEventListener("click", () => {
+  useLocationBtn.disabled = true;
+  const originalText = useLocationBtn.innerHTML;
+  useLocationBtn.innerHTML = `<span class="btn-icon">⏳</span> Locating...`;
+
+  // Try browser geolocation (optional – only for UX)
+  if ("geolocation" in navigator) {
+    navigator.geolocation.getCurrentPosition(
+      () => {
+        showUserLocation(originalText);
+      },
+      () => {
+        showUserLocation(originalText);
+      },
+      { timeout: 4000 }
+    );
+  } else {
+    showUserLocation(originalText);
+  }
+});
+
+function showUserLocation(originalText) {
+  userMarker.style.display = "flex";
+  useLocationBtn.innerHTML =
+    `<span class="btn-icon">✅</span> Location set (approximate)`;
+  setTimeout(() => {
+    useLocationBtn.innerHTML = originalText;
+    useLocationBtn.disabled = false;
+  }, 2000);
+}
+
+// Initial render
+renderSafeZones(safeZones);
+updateMap(safeZones[0].name);
+
+// Footer button – go to Rescue Teams page or section
+// Change URL or selector as per your project.
+
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("viewRescueTeamsBtn");
+
+  if (!btn) return;
+
+  btn.addEventListener("click", () => {
+    // Option 1: navigate to another page
+    // window.location.href = "rescue-teams.html";
+
+    // Option 2: smooth scroll to section on same page
+    const section = document.querySelector("#rescue-teams");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    } else {
+      // fallback: go to page
+      window.location.href = "rescue-teams.html";
+    }
+  });
+});
+
+
+  </script>
+</body>
+</html>

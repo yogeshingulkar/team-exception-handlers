@@ -1,0 +1,636 @@
+    :root {
+  --blue-dark: #0b3a83;
+  --blue-deep: #3e4248;
+  --blue-soft: #f1f5fb;
+  --bg-page: #f2f4f7;
+  --text-main: #0f172a;
+  --text-muted: #6b7280;
+  --danger: #ef4444;
+  --danger-light: #fee2e2;
+  --success: #16a34a;
+  --white: #ffffff;
+  --border-soft: #e2e8f0;
+  --shadow-soft: 0 12px 30px rgba(15, 23, 42, 0.08);
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background: var(--bg-page);
+  color: var(--text-main);
+}
+
+    /* ---------------- NAVBAR ---------------- */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 60px;
+        background: #fff;
+        box-shadow: 0 1px 5px rgba(0,0,0,0.08);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        overflow: hidden;
+    }
+    .navbar > * { position: relative; z-index: 1; }
+    .navbar::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        width: 200%;
+        height: 40px;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='40' viewBox='0 0 120 40'><path d='M0 20 Q30 0 60 20 T120 20 V40 H0 Z' fill='%23009087'/></svg>");
+        background-repeat: repeat-x;
+        background-size: 120px 40px;
+        opacity: 0.22;
+        animation: wave-x-1 9s linear infinite, wave-y 5s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 0;
+    }
+    .navbar::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -10px;
+        width: 200%;
+        height: 46px;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='46' viewBox='0 0 120 46'><path d='M0 23 Q30 3 60 23 T120 23 V46 H0 Z' fill='%2300b3a2'/></svg>");
+        background-repeat: repeat-x;
+        background-size: 120px 46px;
+        opacity: 0.16;
+        animation: wave-x-2 12s linear infinite, wave-y 6s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 0;
+    }
+    @keyframes wave-x-1 { from { background-position-x: 0; } to { background-position-x: -240px; } }
+    @keyframes wave-x-2 { from { background-position-x: 0; } to { background-position-x: 240px; } }
+    @keyframes wave-y { 0% { transform: translateY(0); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0); } }
+    .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 20px;
+        font-weight: 700;
+        color: #0a1f44;
+    }
+    .nav-menu a {
+        margin: 0 15px;
+        text-decoration: none;
+        color: #0a1f44;
+        font-weight: 500;
+    }
+    .nav-menu a.active {
+        background: #0a1f44;
+        color: #fff;
+        padding: 8px 18px;
+        border-radius: 8px;
+    }
+    .nav-buttons button {
+        padding: 10px 18px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+    }
+    .btn-emergency {
+        background: #e63946;
+        color: #fff;
+        margin-right: 10px;
+    }
+    .btn-login {
+        background: #fff;
+        border: 1.5px solid #ccc;
+    }
+
+.btn {
+  border-radius: var(--radius-pill);
+  border: none;
+  padding: 7px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+}
+
+.btn-success {
+  background: var(--success);
+  color: white;
+}
+
+.btn-success:hover {
+  background: #15803d;
+}
+
+.btn-outline {
+  border: 1px solid var(--border-soft);
+  background: white;
+}
+
+.btn-outline:hover {
+  background: #f3f4f6;
+}
+
+.btn-light {
+  background: white;
+  color: var(--blue-dark);
+  padding-inline: 24px;
+}
+
+.btn-light:hover {
+  background: #e5f0ff;
+}
+
+.big-btn {
+  padding-inline: 32px;
+}
+
+/* HERO */
+
+.hero {
+        background-image: url('../images/Emergency\ Guide.jpg');
+        background-repeat: no-repeat;
+        background-position: 100%;
+        background-size: 100%;
+        padding: 120px 20px;
+        text-align: center;
+        color: black;
+        position: relative; /* needed for glass overlay */
+        overflow: hidden;
+    }
+
+    /* Glassmorphism overlay over hero background */
+    .hero::before {
+        
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+        backdrop-filter: blur(7px) saturate(120%);
+        -webkit-backdrop-filter: blur(2px) saturate(120%);
+        z-index: 0;
+        border: 1px solid rgba(255,255,255,0.25);
+        pointer-events: none;
+    }
+
+    /* Ensure hero content sits above the overlay */
+    .hero > * {
+        position: relative;
+        z-index: 1;
+    }
+
+.hero-content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.hero h1 {
+  margin: 0 0 10px;
+  font-size: 36px;
+}
+
+.hero p {
+  margin: 0;
+  font-size: 15px;
+  opacity: 0.9;
+}
+
+/* DANGER STRIP */
+
+.danger-strip {
+  background: var(--danger-light);
+  border-bottom: 1px solid #fecaca;
+  padding: 14px 56px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+}
+
+.danger-text {
+  font-size: 13px;
+  color: #b91c1c;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.danger-actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* GENERIC SECTION */
+
+.section {
+  padding: 40px 56px;
+}
+
+.section-header {
+  margin-bottom: 20px;
+}
+
+.section-header h2 {
+  margin: 0 0 4px;
+  font-size: 22px;
+}
+
+.section-header p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ICON HEADER */
+
+.icon-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.icon-badge.cube {
+  background: #e0edff;
+  color: #1d4ed8;
+}
+
+.icon-badge.car {
+  background: #fef3c7;
+  color: #f97316;
+}
+
+.icon-badge.heart {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* KIT GRID */
+
+.kit-status {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 18px;
+}
+
+.kit-note {
+  color: var(--text-muted);
+}
+
+.kit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.kit-card {
+  font-size: 40px;
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 70px 18px;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--border-soft);
+  transition: transform 0.12s ease, box-shadow 0.12s ease,
+    border-color 0.12s ease;
+}
+
+.kit-card-header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.kit-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: #ecfdf3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+}
+
+.kit-title h3 {
+  margin: 0 0 4px;
+  font-size: 25px;
+}
+
+.kit-title p {
+  margin: 0;
+  font-size: 20px;
+  color: var(--text-muted);
+}
+
+.kit-toggle {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.kit-toggle input[type="checkbox"] {
+  transform: scale(1);
+}
+
+/* state when item is ready */
+
+.kit-card.ready {
+  border-color: #22c55e;
+  box-shadow: 0 18px 40px rgba(34, 197, 94, 0.15);
+  transform: translateY(-2px);
+}
+
+.kit-card.ready .kit-icon {
+  background: #bbf7d0;
+}
+
+/* PRO TIP */
+
+.pro-tip {
+  margin-top: 18px;
+  background: #e0f2fe;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 12px;
+  color: #1d4ed8;
+}
+
+/* EVACUATION LIST */
+
+.evac-list {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.evac-item {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 20px 18px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  box-shadow: var(--shadow-soft);
+}
+
+.evac-number {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: var(--blue-dark);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.evac-content h3 {
+  margin: 0 0 4px;
+  font-size: 20px;
+}
+
+.evac-content p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* FIRST AID GRID */
+
+.firstaid-grid {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.firstaid-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-soft);
+  padding: 28px 25px 41px;
+  box-shadow: var(--shadow-soft);
+}
+
+.firstaid-card h3 {
+  margin: 0 0 8px;
+  font-size: 20px;
+}
+
+.firstaid-card ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.disclaimer {
+  margin-top: 18px;
+  background: #fef3c7;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 12px;
+  color: #92400e;
+}
+
+/* FAMILY PLAN + FOOTER */
+
+.family-plan {
+  margin-top: 40px;
+  background: var(--blue-deep);
+  color: white;
+  padding: 46px 56px 24px;
+}
+
+.family-plan-inner {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.family-icon {
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+
+.family-plan-inner h2 {
+  margin: 0 0 8px;
+  font-size: 26px;
+}
+
+.family-plan-inner p {
+  margin: 0 0 16px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* FOOTER */
+
+.footer {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 32px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(148, 163, 184, 0.3);
+  font-size: 13px;
+}
+
+.footer-brand .brand-icon {
+  background: white;
+  color: var(--blue-dark);
+}
+
+.footer-description {
+  margin: 10px 0 0;
+  color: #cbd5f5;
+  font-size: 12px;
+  max-width: 340px;
+}
+
+.footer-section h4 {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-section li {
+  margin-bottom: 5px;
+}
+
+.footer-section a {
+  color: #e5e7eb;
+  text-decoration: none;
+}
+
+.footer-section a:hover {
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  margin-top: 14px;
+  border-top: 1px solid rgba(148, 163, 184, 0.3);
+  padding-top: 10px;
+  font-size: 11px;
+  text-align: center;
+  color: #cbd5f5;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1000px) {
+  .header {
+    padding-inline: 24px;
+  }
+
+  .hero,
+  .section,
+  .danger-strip,
+  .family-plan {
+    padding-inline: 24px;
+  }
+
+  .kit-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .footer {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .nav {
+    flex-wrap: wrap;
+  }
+
+  .danger-strip {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .danger-actions {
+    justify-content: stretch;
+    flex-direction: column;
+  }
+
+  .kit-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .firstaid-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer {
+    grid-template-columns: 1fr;
+  }
+}
+
+.loader { display: flex; align-items: center; justify-content: center; padding: 16px 0; }
+.truckWrapper { position: relative; width: 320px; height: 140px; }
+.truckBody { position: absolute; left: 40px; bottom: 34px; animation: truckMove 3s ease-in-out infinite alternate; }
+.trucksvg { width: 198px; height: 93px; }
+.truckTires { position: absolute; left: 58px; bottom: 20px; display: flex; gap: 90px; }
+.tiresvg { width: 30px; height: 30px; animation: tireSpin 1.2s linear infinite; }
+.road { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: repeating-linear-gradient(90deg,#7d7c7c 0 24px, transparent 24px 48px); animation: roadMove 1s linear infinite; }
+.lampPost { position: absolute; right: 0; bottom: 4px; width: 60px; opacity: .25; animation: lampFade 3s ease-in-out infinite alternate; }
+@keyframes tireSpin { to { transform: rotate(360deg); } }
+@keyframes roadMove { from { background-position: 0 0; } to { background-position: 48px 0; } }
+@keyframes truckMove { from { transform: translateX(0); } to { transform: translateX(12px); } }
+@keyframes lampFade { from { opacity: .15; } to { opacity: .35; } }

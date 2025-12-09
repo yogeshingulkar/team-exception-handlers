@@ -1,0 +1,223 @@
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #f5f7fb;
+    color: #1a1a1a;
+}
+
+/* NAVBAR */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 60px;
+    background: #ffffff;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.logo span {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.nav-links a {
+    margin: 0 15px;
+    font-weight: 500;
+    text-decoration: none;
+    color: #0a1f44;
+}
+
+.nav-links .active {
+    background: #0a1f44;
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: white;
+}
+
+.btn-emergency {
+    background: #e63946;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+}
+
+.btn-login {
+    background: #fff;
+    border: 1px solid #cccccc;
+    padding: 10px 16px;
+    border-radius: 8px;
+}
+
+/* Page Header */
+.page-header {
+        background-image: url('../images/RescueTeams.jpg');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        padding: 240px 20px;
+        background-position-y: 5%;
+        text-align: center;
+        color: #fff;
+        position: relative; /* needed for glass overlay */
+        overflow: hidden;
+    }
+
+    /* Glassmorphism overlay over hero background */
+    .page-header::before {
+        
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+        backdrop-filter: blur(1.3px) saturate(120%);
+        -webkit-backdrop-filter: blur(2px) saturate(120%);
+        z-index: 0;
+        border: 1px solid rgba(255,255,255,0.25);
+        pointer-events: none;
+    }
+
+    /* Ensure hero content sits above the overlay */
+    .page-header > * {
+        position: relative;
+        z-index: 1;
+    }
+
+.page-header h1 {
+    font-size: 60px;
+    font-weight: 800;
+}
+
+.page-header p {
+    font-size: 20px;
+    width: 650px;
+    margin: 10px auto;
+    opacity: 0.9;
+}
+
+/* Team Cards Layout */
+.teams-container {
+    width: 90%;
+    margin: auto;
+    padding-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+}
+
+/* Team Card */
+.team-card {
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+}
+
+.team-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    position: relative;
+}
+
+.team-header h2 {
+    font-size: 22px;
+    margin: 0;
+}
+
+.status {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.ready { background: #d4f5d4; color: #22893c; }
+.active { background: #d4f5d4; color: #22893c; }
+.oncall { background: #e3f0ff; color: #004aad; }
+.standby { background: #fff0c2; color: #9a6b00; }
+.alert { background: #fff0c2; color: #b15b00; }
+.volunteer { background: #d4f5d4; color: #22893c; }
+
+.tags span {
+    background: #eef1f7;
+    padding: 6px 12px;
+    border-radius: 8px;
+    margin: 5px;
+    display: inline-block;
+    font-size: 13px;
+}
+
+.team-footer {
+    border-top: 1px solid #e6e6e6;
+    margin-top: 15px;
+    padding-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contact-btn {
+    background: #ffffff;
+    border: 1px solid #ccc;
+    padding: 10px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* HELP SECTION */
+.help-section {
+    padding: 90px 0;
+    text-align: center;
+}
+
+.help-icon {
+    font-size: 48px;
+}
+
+.help-buttons {
+    margin-top: 20px;
+}
+
+.join-btn {
+    background: #0e2f66;
+    color: white;
+    padding: 14px 28px;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+}
+
+.donate-btn {
+    background: #fff;
+    color: #0e2f66;
+    border: 2px solid #0e2f66;
+    padding: 14px 28px;
+    border-radius: 10px;
+    margin-left: 15px;
+    font-size: 16px;
+}
+
+/* FOOTER */
+.footer {
+    background: #0e2f66;
+    color: white;
+    padding: 50px 60px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.footer-bottom {
+    text-align: center;
+    opacity: 0.7;
+    margin-top: 20px;
+}
