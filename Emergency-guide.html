@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Disaster Rescue – Emergency Guide</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- <link rel="stylesheet" href="../css/Emergency-guide.css"> -->
+<!-- <link rel="stylesheet" href="../css/style.css"> -->
+<style>
+      :root {
+  --blue-dark: #0b3a83;
+  --blue-deep: #3e4248;
+  --blue-soft: #f1f5fb;
+  --bg-page: #f2f4f7;
+  --text-main: #0f172a;
+  --text-muted: #6b7280;
+  --danger: #ef4444;
+  --danger-light: #fee2e2;
+  --success: #16a34a;
+  --white: #ffffff;
+  --border-soft: #e2e8f0;
+  --shadow-soft: 0 12px 30px rgba(15, 23, 42, 0.08);
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background: var(--bg-page);
+  color: var(--text-main);
+}
+
+    /* ---------------- NAVBAR ---------------- */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 60px;
+        background: #fff;
+        box-shadow: 0 1px 5px rgba(0,0,0,0.08);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        overflow: hidden;
+    }
+    .navbar > * { position: relative; z-index: 1; }
+    .navbar::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        width: 200%;
+        height: 40px;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='40' viewBox='0 0 120 40'><path d='M0 20 Q30 0 60 20 T120 20 V40 H0 Z' fill='%23009087'/></svg>");
+        background-repeat: repeat-x;
+        background-size: 120px 40px;
+        opacity: 0.22;
+        animation: wave-x-1 9s linear infinite, wave-y 5s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 0;
+    }
+    .navbar::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -10px;
+        width: 200%;
+        height: 46px;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='46' viewBox='0 0 120 46'><path d='M0 23 Q30 3 60 23 T120 23 V46 H0 Z' fill='%2300b3a2'/></svg>");
+        background-repeat: repeat-x;
+        background-size: 120px 46px;
+        opacity: 0.16;
+        animation: wave-x-2 12s linear infinite, wave-y 6s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 0;
+    }
+    @keyframes wave-x-1 { from { background-position-x: 0; } to { background-position-x: -240px; } }
+    @keyframes wave-x-2 { from { background-position-x: 0; } to { background-position-x: 240px; } }
+    @keyframes wave-y { 0% { transform: translateY(0); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0); } }
+    .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 20px;
+        font-weight: 700;
+        color: #0a1f44;
+    }
+    .nav-menu a {
+        margin: 0 15px;
+        text-decoration: none;
+        color: #0a1f44;
+        font-weight: 500;
+    }
+    .nav-menu a.active {
+        background: #0a1f44;
+        color: #fff;
+        padding: 8px 18px;
+        border-radius: 8px;
+    }
+    .nav-buttons button {
+        padding: 10px 18px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+    }
+    .btn-emergency {
+        background: #e63946;
+        color: #fff;
+        margin-right: 10px;
+    }
+    .btn-login {
+        background: #fff;
+        border: 1.5px solid #ccc;
+    }
+
+.btn {
+  border-radius: var(--radius-pill);
+  border: none;
+  padding: 7px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+}
+
+.btn-success {
+  background: var(--success);
+  color: white;
+}
+
+.btn-success:hover {
+  background: #15803d;
+}
+
+.btn-outline {
+  border: 1px solid var(--border-soft);
+  background: white;
+}
+
+.btn-outline:hover {
+  background: #f3f4f6;
+}
+
+.btn-light {
+  background: white;
+  color: var(--blue-dark);
+  padding-inline: 24px;
+}
+
+.btn-light:hover {
+  background: #e5f0ff;
+}
+
+.big-btn {
+  padding-inline: 32px;
+}
+
+/* HERO */
+
+.hero {
+        background-image: url('../images/Emergency\ Guide.jpg');
+        background-repeat: no-repeat;
+        background-position: 100%;
+        background-size: 100%;
+        padding: 120px 20px;
+        text-align: center;
+        color: black;
+        position: relative; /* needed for glass overlay */
+        overflow: hidden;
+    }
+
+    /* Glassmorphism overlay over hero background */
+    .hero::before {
+        
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+        backdrop-filter: blur(7px) saturate(120%);
+        -webkit-backdrop-filter: blur(2px) saturate(120%);
+        z-index: 0;
+        border: 1px solid rgba(255,255,255,0.25);
+        pointer-events: none;
+    }
+
+    /* Ensure hero content sits above the overlay */
+    .hero > * {
+        position: relative;
+        z-index: 1;
+    }
+
+.hero-content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.hero h1 {
+  margin: 0 0 10px;
+  font-size: 36px;
+}
+
+.hero p {
+  margin: 0;
+  font-size: 15px;
+  opacity: 0.9;
+}
+
+/* DANGER STRIP */
+
+.danger-strip {
+  background: var(--danger-light);
+  border-bottom: 1px solid #fecaca;
+  padding: 14px 56px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+}
+
+.danger-text {
+  font-size: 13px;
+  color: #b91c1c;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.danger-actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* GENERIC SECTION */
+
+.section {
+  padding: 40px 56px;
+}
+
+.section-header {
+  margin-bottom: 20px;
+}
+
+.section-header h2 {
+  margin: 0 0 4px;
+  font-size: 22px;
+}
+
+.section-header p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ICON HEADER */
+
+.icon-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.icon-badge.cube {
+  background: #e0edff;
+  color: #1d4ed8;
+}
+
+.icon-badge.car {
+  background: #fef3c7;
+  color: #f97316;
+}
+
+.icon-badge.heart {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* KIT GRID */
+
+.kit-status {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 18px;
+}
+
+.kit-note {
+  color: var(--text-muted);
+}
+
+.kit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.kit-card {
+  font-size: 40px;
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 70px 18px;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--border-soft);
+  transition: transform 0.12s ease, box-shadow 0.12s ease,
+    border-color 0.12s ease;
+}
+
+.kit-card-header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.kit-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: #ecfdf3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+}
+
+.kit-title h3 {
+  margin: 0 0 4px;
+  font-size: 25px;
+}
+
+.kit-title p {
+  margin: 0;
+  font-size: 20px;
+  color: var(--text-muted);
+}
+
+.kit-toggle {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.kit-toggle input[type="checkbox"] {
+  transform: scale(1);
+}
+
+/* state when item is ready */
+
+.kit-card.ready {
+  border-color: #22c55e;
+  box-shadow: 0 18px 40px rgba(34, 197, 94, 0.15);
+  transform: translateY(-2px);
+}
+
+.kit-card.ready .kit-icon {
+  background: #bbf7d0;
+}
+
+/* PRO TIP */
+
+.pro-tip {
+  margin-top: 18px;
+  background: #e0f2fe;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 12px;
+  color: #1d4ed8;
+}
+
+/* EVACUATION LIST */
+
+.evac-list {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.evac-item {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 20px 18px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  box-shadow: var(--shadow-soft);
+}
+
+.evac-number {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: var(--blue-dark);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.evac-content h3 {
+  margin: 0 0 4px;
+  font-size: 20px;
+}
+
+.evac-content p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* FIRST AID GRID */
+
+.firstaid-grid {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.firstaid-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-soft);
+  padding: 28px 25px 41px;
+  box-shadow: var(--shadow-soft);
+}
+
+.firstaid-card h3 {
+  margin: 0 0 8px;
+  font-size: 20px;
+}
+
+.firstaid-card ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.disclaimer {
+  margin-top: 18px;
+  background: #fef3c7;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 12px;
+  color: #92400e;
+}
+
+/* FAMILY PLAN + FOOTER */
+
+.family-plan {
+  margin-top: 40px;
+  background: var(--blue-deep);
+  color: white;
+  padding: 46px 56px 24px;
+}
+
+.family-plan-inner {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.family-icon {
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+
+.family-plan-inner h2 {
+  margin: 0 0 8px;
+  font-size: 26px;
+}
+
+.family-plan-inner p {
+  margin: 0 0 16px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* FOOTER */
+
+.footer {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 32px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(148, 163, 184, 0.3);
+  font-size: 13px;
+}
+
+.footer-brand .brand-icon {
+  background: white;
+  color: var(--blue-dark);
+}
+
+.footer-description {
+  margin: 10px 0 0;
+  color: #cbd5f5;
+  font-size: 12px;
+  max-width: 340px;
+}
+
+.footer-section h4 {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-section li {
+  margin-bottom: 5px;
+}
+
+.footer-section a {
+  color: #e5e7eb;
+  text-decoration: none;
+}
+
+.footer-section a:hover {
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  margin-top: 14px;
+  border-top: 1px solid rgba(148, 163, 184, 0.3);
+  padding-top: 10px;
+  font-size: 11px;
+  text-align: center;
+  color: #cbd5f5;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1000px) {
+  .header {
+    padding-inline: 24px;
+  }
+
+  .hero,
+  .section,
+  .danger-strip,
+  .family-plan {
+    padding-inline: 24px;
+  }
+
+  .kit-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .footer {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .nav {
+    flex-wrap: wrap;
+  }
+
+  .danger-strip {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .danger-actions {
+    justify-content: stretch;
+    flex-direction: column;
+  }
+
+  .kit-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .firstaid-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer {
+    grid-template-columns: 1fr;
+  }
+}
+
+.loader { display: flex; align-items: center; justify-content: center; padding: 16px 0; }
+.truckWrapper { position: relative; width: 320px; height: 140px; }
+.truckBody { position: absolute; left: 40px; bottom: 34px; animation: truckMove 3s ease-in-out infinite alternate; }
+.trucksvg { width: 198px; height: 93px; }
+.truckTires { position: absolute; left: 58px; bottom: 20px; display: flex; gap: 90px; }
+.tiresvg { width: 30px; height: 30px; animation: tireSpin 1.2s linear infinite; }
+.road { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: repeating-linear-gradient(90deg,#7d7c7c 0 24px, transparent 24px 48px); animation: roadMove 1s linear infinite; }
+.lampPost { position: absolute; right: 0; bottom: 4px; width: 60px; opacity: .25; animation: lampFade 3s ease-in-out infinite alternate; }
+@keyframes tireSpin { to { transform: rotate(360deg); } }
+@keyframes roadMove { from { background-position: 0 0; } to { background-position: 48px 0; } }
+@keyframes truckMove { from { transform: translateX(0); } to { transform: translateX(12px); } }
+@keyframes lampFade { from { opacity: .15; } to { opacity: .35; } }
+
+</style>
+</head>
+<body>
+  <!-- HEADER / NAVBAR -->
+  <div class="navbar">
+    <div class="nav-left">
+      🛡️ Disaster Rescue  
+    </div>
+    <div class="nav-menu">
+      <a href="./index.html">Home</a>
+      <a href="./typeOfDisaster.html">Types of Disasters</a>
+      <a href="./Emergency-guide.html" class="active">Emergency Guide</a>
+      <a href="./rescue-teams.html">Rescue Teams</a>
+      <a href="./safe-zones.html">Safe Zones</a>
+      <a href="./sos.html">SOS</a>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn-emergency" onclick="location.href='./sos.html'">📞 Emergency</button>
+      <button class="btn-login">Login</button>
+    </div>
+  </div>
+
+  <main>
+    <!-- HERO / BANNER -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Emergency Guide</h1>
+        <p>
+          Essential information and step-by-step actions to help keep you and your
+          family safe during emergencies.
+        </p>
+      </div>
+    </section>
+
+    <!-- IMMEDIATE DANGER STRIP -->
+    <section class="danger-strip">
+      <div class="danger-text">⚠️ In immediate danger?</div>
+      <div class="danger-actions">
+        <a href="tel:112" class="btn btn-danger big-btn">Call Emergency (112)</a>
+        <a href="./safe-zones.html" class="btn btn-success big-btn">Find Safe Zone</a>
+      </div>
+    </section>
+
+    <!-- EMERGENCY SURVIVAL KIT -->
+    <section class="section">
+      <div class="section-header icon-header">
+        <div class="icon-badge cube">📦</div>
+        <div>
+          <h2>Emergency Survival Kit</h2>
+          <p>Every home should have a basic kit prepared in advance.</p>
+        </div>
+      </div>
+
+      <div class="kit-status">
+        <span id="kitProgressText">0 / 6 items ready</span>
+        <span class="kit-note">Progress is stored in your browser (local).</span>
+      </div>
+
+      <div class="kit-grid">
+        <!-- each card has a checkbox that is synced to localStorage -->
+        <article class="kit-card" data-kit-id="water">
+          <div class="kit-card-header">
+            <div class="kit-icon">💧</div>
+            <div class="kit-title">
+              <h3>Water</h3>
+              <p>At least 1 gallon per person per day for 3 days.</p>
+            </div>
+            <label class="kit-toggle">
+              <input type="checkbox" class="kit-checkbox" />
+              <span>Ready</span>
+            </label>
+          </div>
+        </article>
+
+        <article class="kit-card" data-kit-id="food">
+          <div class="kit-card-header">
+            <div class="kit-icon">🥫</div>
+            <div class="kit-title">
+              <h3>Food</h3>
+              <p>3-day supply of non-perishable food items.</p>
+            </div>
+            <label class="kit-toggle">
+              <input type="checkbox" class="kit-checkbox" />
+              <span>Ready</span>
+            </label>
+          </div>
+        </article>
+
+        <article class="kit-card" data-kit-id="radio">
+          <div class="kit-card-header">
+            <div class="kit-icon">📻</div>
+            <div class="kit-title">
+              <h3>Radio</h3>
+              <p>Battery-powered or hand-crank radio for updates.</p>
+            </div>
+            <label class="kit-toggle">
+              <input type="checkbox" class="kit-checkbox" />
+              <span>Ready</span>
+            </label>
+          </div>
+        </article>
+
+        <article class="kit-card" data-kit-id="flashlight">
+          <div class="kit-card-header">
+            <div class="kit-icon">🔦</div>
+            <div class="kit-title">
+              <h3>Flashlight</h3>
+              <p>With spare batteries or rechargeable power source.</p>
+            </div>
+            <label class="kit-toggle">
+              <input type="checkbox" class="kit-checkbox" />
+              <span>Ready</span>
+            </label>
+          </div>
+        </article>
+
+        <article class="kit-card" data-kit-id="firstaid">
+          <div class="kit-card-header">
+            <div class="kit-icon">⛑️</div>
+            <div class="kit-title">
+              <h3>First Aid Kit</h3>
+              <p>Bandages, medications, antiseptic, and gloves.</p>
+            </div>
+            <label class="kit-toggle">
+              <input type="checkbox" class="kit-checkbox" />
+              <span>Ready</span>
+            </label>
+          </div>
+        </article>
+
+        <article class="kit-card" data-kit-id="documents">
+          <div class="kit-card-header">
+            <div class="kit-icon">📄</div>
+            <div class="kit-title">
+              <h3>Documents</h3>
+              <p>Copies of IDs, insurance papers, and contacts.</p>
+            </div>
+            <label class="kit-toggle">
+              <input type="checkbox" class="kit-checkbox" />
+              <span>Ready</span>
+            </label>
+          </div>
+        </article>
+      </div>
+
+      <div class="pro-tip">
+        <strong>Pro tip:</strong> Keep your kit in an easy-to-reach place and
+        review supplies every 6 months to replace anything expired.
+      </div>
+    </section>
+
+    <!-- EVACUATION PROCEDURE -->
+    <section class="section">
+      <div class="loader">
+        <div class="truckWrapper">
+          <div class="truckBody">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 198 93" class="trucksvg">
+              <path stroke-width="3" stroke="#282828" fill="#F83D3D" d="M135 22.5H177.264C178.295 22.5 179.22 23.133 179.594 24.0939L192.33 56.8443C192.442 57.1332 192.5 57.4404 192.5 57.7504V89C192.5 90.3807 191.381 91.5 190 91.5H135C133.619 91.5 132.5 90.3807 132.5 89V25C132.5 23.6193 133.619 22.5 135 22.5Z"></path>
+              <path stroke-width="3" stroke="#282828" fill="#7D7C7C" d="M146 33.5H181.741C182.779 33.5 183.709 34.1415 184.078 35.112L190.538 52.112C191.16 53.748 189.951 55.5 188.201 55.5H146C144.619 55.5 143.5 54.3807 143.5 53V36C143.5 34.6193 144.619 33.5 146 33.5Z"></path>
+              <path stroke-width="2" stroke="#282828" fill="#282828" d="M150 65C150 65.39 149.763 65.8656 149.127 66.2893C148.499 66.7083 147.573 67 146.5 67C145.427 67 144.501 66.7083 143.873 66.2893C143.237 65.8656 143 65.39 143 65C143 64.61 143.237 64.1344 143.873 63.7107C144.501 63.2917 145.427 63 146.5 63C147.573 63 148.499 63.2917 149.127 63.7107C149.763 64.1344 150 64.61 150 65Z"></path>
+              <rect stroke-width="2" stroke="#282828" fill="#FFFCAB" rx="1" height="7" width="5" y="63" x="187"></rect>
+              <rect stroke-width="2" stroke="#282828" fill="#282828" rx="1" height="11" width="4" y="81" x="193"></rect>
+              <rect stroke-width="3" stroke="#282828" fill="#DFDFDF" rx="2.5" height="90" width="121" y="1.5" x="6.5"></rect>
+              <rect stroke-width="2" stroke="#282828" fill="#DFDFDF" rx="2" height="4" width="6" y="84" x="1"></rect>
+            </svg>
+          </div>
+          <div class="truckTires">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 30 30" class="tiresvg">
+              <circle stroke-width="3" stroke="#282828" fill="#282828" r="13.5" cy="15" cx="15"></circle>
+              <circle fill="#DFDFDF" r="7" cy="15" cx="15"></circle>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 30 30" class="tiresvg">
+              <circle stroke-width="3" stroke="#282828" fill="#282828" r="13.5" cy="15" cx="15"></circle>
+              <circle fill="#DFDFDF" r="7" cy="15" cx="15"></circle>
+            </svg>
+          </div>
+          <div class="road"></div>
+          <svg xml:space="preserve" viewBox="0 0 453.459 453.459" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" id="Capa_1" version="1.1" fill="#000000" class="lampPost">
+            <path d="M252.882,0c-37.781,0-68.686,29.953-70.245,67.358h-6.917v8.954c-26.109,2.163-45.463,10.011-45.463,19.366h9.993 c-1.65,5.146-2.507,10.54-2.507,16.017c0,28.956,23.558,52.514,52.514,52.514c28.956,0,52.514-23.558,52.514-52.514 c0-5.478-0.856-10.872-2.506-16.017h9.992c0-9.354-19.352-17.204-45.463-19.366v-8.954h-6.149C200.189,38.779,223.924,16,252.882,16 c29.952,0,54.32,24.368,54.32,54.32c0,28.774-11.078,37.009-25.105,47.437c-17.444,12.968-37.216,27.667-37.216,78.884v113.914 h-0.797c-5.068,0-9.174,4.108-9.174,9.177c0,2.844,1.293,5.383,3.321,7.066c-3.432,27.933-26.851,95.744-8.226,115.459v11.202h45.75 v-11.202c18.625-19.715-4.794-87.527-8.227-115.459c2.029-1.683,3.322-4.223,3.322-7.066c0-5.068-4.107-9.177-9.176-9.177h-0.795 V196.641c0-43.174,14.942-54.283,30.762-66.043c14.793-10.997,31.559-23.461,31.559-60.277C323.202,31.545,291.656,0,252.882,0z M232.77,111.694c0,23.442-19.071,42.514-42.514,42.514c-23.442,0-42.514-19.072-42.514-42.514c0-5.531,1.078-10.957,3.141-16.017 h78.747C231.693,100.736,232.77,106.162,232.77,111.694z"></path>
+          </svg>
+        </div>
+      </div>
+
+      <ol class="evac-list">
+        <li class="evac-item">
+          <div class="evac-number">1</div>
+          <div class="evac-content">
+            <h3>Know Your Routes</h3>
+            <p>Identify at least two evacuation routes from your area and check for closures or diversions.</p>
+          </div>
+        </li>
+
+        <li class="evac-item">
+          <div class="evac-number">2</div>
+          <div class="evac-content">
+            <h3>Prepare Your Vehicle</h3>
+            <p>Keep the fuel tank topped up and store basic emergency supplies in the car.</p>
+          </div>
+        </li>
+
+        <li class="evac-item">
+          <div class="evac-number">3</div>
+          <div class="evac-content">
+            <h3>Secure Your Home</h3>
+            <p>Turn off utilities if instructed, lock doors and windows, and take photos for insurance.</p>
+          </div>
+        </li>
+
+        <li class="evac-item">
+          <div class="evac-number">4</div>
+          <div class="evac-content">
+            <h3>Take Your Emergency Kit</h3>
+            <p>Carry your pre-packed emergency kit with essential items and documents.</p>
+          </div>
+        </li>
+
+        <li class="evac-item">
+          <div class="evac-number">5</div>
+          <div class="evac-content">
+            <h3>Go to a Safe Location</h3>
+            <p>Move to the designated evacuation center or a safe area outside the affected zone.</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- BASIC FIRST AID -->
+    <section class="section">
+      <div class="section-header icon-header">
+        <div class="icon-badge heart">❤️</div>
+        <div>
+          <h2>Basic First Aid</h2>
+          <p>Simple life-saving actions everyone should understand.</p>
+        </div>
+      </div>
+
+      <div class="firstaid-grid">
+        <article class="firstaid-card">
+          <h3>Bleeding</h3>
+          <ul>
+            <li>Apply firm pressure with a clean cloth.</li>
+            <li>Elevate the injured area if possible.</li>
+            <li>Do not remove deeply embedded objects.</li>
+            <li>Seek medical help for heavy or persistent bleeding.</li>
+          </ul>
+        </article>
+
+        <article class="firstaid-card">
+          <h3>Burns</h3>
+          <ul>
+            <li>Cool the burn under running water for 10 minutes.</li>
+            <li>Cover with a sterile, non-fluffy dressing.</li>
+            <li>Avoid ice, butter, or home remedies.</li>
+            <li>Get help for large or deep burns.</li>
+          </ul>
+        </article>
+
+        <article class="firstaid-card">
+          <h3>CPR Basics</h3>
+          <ul>
+            <li>Check for responsiveness and breathing.</li>
+            <li>Call emergency services.</li>
+            <li>Provide 30 chest compressions followed by 2 rescue breaths.</li>
+            <li>Continue until help arrives or the person recovers.</li>
+          </ul>
+        </article>
+
+        <article class="firstaid-card">
+          <h3>Choking</h3>
+          <ul>
+            <li>Encourage coughing if the person can breathe.</li>
+            <li>Give back blows between the shoulder blades.</li>
+            <li>Use abdominal thrusts if obstruction persists.</li>
+            <li>Call for help if the person becomes unresponsive.</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="disclaimer">
+        <strong>Important:</strong>
+        This information is only a basic guide. For full training, attend a certified first-aid course. Always contact emergency services for serious injuries.
+      </div>
+    </section>
+
+    <!-- FAMILY EMERGENCY PLAN CTA + FOOTER -->
+    <section class="family-plan">
+      <div class="family-plan-inner">
+        <div class="family-icon">👨‍👩‍👧‍👦</div>
+        <h2>Create a Family Emergency Plan</h2>
+        <p>
+          Talk with your family about meeting points, emergency contacts, and evacuation routes.
+          Practice your plan regularly.
+        </p>
+        <a href="#" class="btn btn-light">
+          View Rescue Teams →
+        </a>
+      </div>
+
+      <footer class="footer">
+        <div class="footer-section">
+          <div class="brand footer-brand">
+            <div class="brand-icon">🛡️</div>
+            <div class="brand-text">
+              <span class="brand-title">Disaster Rescue</span>
+              <span class="brand-subtitle">Response Center</span>
+            </div>
+          </div>
+          <p class="footer-description">
+            Providing critical disaster-response information, emergency contacts, and
+            coordination support when every second matters.
+          </p>
+        </div>
+
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+                    <li><a href="./typeOfDisaster.html">Types of Disasters</a></li>
+                    <li><a href="./Emergency-guide.html">Emergency Guide</a></li>
+                    <li><a href="#">Rescue Teams</a></li>
+                    <li><a href="./safe-zones.html">Safe Zones</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Emergency Numbers</h4>
+          <ul>
+            <li>📞 Emergency: 112</li>
+            <li>🔥 Fire: 101</li>
+            <li>🚑 Ambulance: 102</li>
+            <li>👮 Police: 100</li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+           <h4>Contact Us</h4>
+            <p>Exception Handlers Team⬇️</p>
+            <p>1. Aniket Jagdale</p>
+            <p>2. Yogesh Ingulkar</p>
+            <p>3. Shubham Gavli</p>
+            <p>4. Dipak Khedkar</p>
+            <p>5. Aditya Sadekar</p>
+        </div>
+        </div>
+      </footer>
+    </section>
+  </main>
+
+  <script>
+    const KIT_STORAGE_KEY = "dr_emergency_kit_status";
+
+document.addEventListener("DOMContentLoaded", () => {
+  const cards = document.querySelectorAll(".kit-card");
+  const progressText = document.getElementById("kitProgressText");
+
+  // Load saved state
+  const saved = loadKitState();
+
+  cards.forEach((card) => {
+    const id = card.dataset.kitId;
+    const checkbox = card.querySelector(".kit-checkbox");
+
+    if (!id || !checkbox) return;
+
+    // Apply saved value
+    if (saved[id]) {
+      checkbox.checked = true;
+      card.classList.add("ready");
+    }
+
+    checkbox.addEventListener("change", () => {
+      const current = loadKitState();
+      current[id] = checkbox.checked;
+      saveKitState(current);
+      updateProgress(cards, progressText);
+      card.classList.toggle("ready", checkbox.checked);
+    });
+  });
+
+  // Initial progress update
+  updateProgress(cards, progressText);
+});
+
+function loadKitState() {
+  try {
+    const raw = localStorage.getItem(KIT_STORAGE_KEY);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw);
+    return typeof parsed === "object" && parsed !== null ? parsed : {};
+  } catch {
+    return {};
+  }
+}
+
+function saveKitState(state) {
+  localStorage.setItem(KIT_STORAGE_KEY, JSON.stringify(state));
+}
+
+function updateProgress(cards, label) {
+  const total = cards.length;
+  let ready = 0;
+  cards.forEach((c) => {
+    const checkbox = c.querySelector(".kit-checkbox");
+    if (checkbox && checkbox.checked) ready++;
+  });
+
+  if (label) {
+    label.textContent = `${ready} / ${total} items ready`;
+  }
+}
+  </script>
+</body>
+</html>

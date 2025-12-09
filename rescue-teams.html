@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rescue Teams</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- 
+<link rel="stylesheet" href="../css/rescue-teams.css" />
+<link rel="stylesheet" href="../css/style.css"> -->
+<style>
+
+    body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background-color: #f5f7fb;
+        color: #1a1a1a;
+    }
+
+    /* ---------------- NAVBAR ---------------- */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 60px;
+        background: #fff;
+        box-shadow: 0 1px 5px rgba(0,0,0,0.08);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        overflow: hidden;
+    }
+    .navbar > * { position: relative; z-index: 1; }
+    .navbar::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        width: 200%;
+        height: 40px;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='40' viewBox='0 0 120 40'><path d='M0 20 Q30 0 60 20 T120 20 V40 H0 Z' fill='%23009087'/></svg>");
+        background-repeat: repeat-x;
+        background-size: 120px 40px;
+        opacity: 0.22;
+        animation: wave-x-1 9s linear infinite, wave-y 5s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 0;
+    }
+    .navbar::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -10px;
+        width: 200%;
+        height: 46px;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='46' viewBox='0 0 120 46'><path d='M0 23 Q30 3 60 23 T120 23 V46 H0 Z' fill='%2300b3a2'/></svg>");
+        background-repeat: repeat-x;
+        background-size: 120px 46px;
+        opacity: 0.16;
+        animation: wave-x-2 12s linear infinite, wave-y 6s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 0;
+    }
+    @keyframes wave-x-1 { from { background-position-x: 0; } to { background-position-x: -240px; } }
+    @keyframes wave-x-2 { from { background-position-x: 0; } to { background-position-x: 240px; } }
+    @keyframes wave-y { 0% { transform: translateY(0); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0); } }
+    .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 20px;
+        font-weight: 700;
+        color: #0a1f44;
+    }
+    .nav-menu a {
+        margin: 0 15px;
+        text-decoration: none;
+        color: #0a1f44;
+        font-weight: 500;
+    }
+    .nav-menu a.active {
+        background: #0a1f44;
+        color: #fff;
+        padding: 8px 18px;
+        border-radius: 8px;
+    }
+    .nav-buttons button {
+        padding: 10px 18px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+    }
+    .btn-emergency {
+        background: #e63946;
+        color: #fff;
+        margin-right: 10px;
+    }
+    .btn-login {
+        background: #fff;
+        border: 1.5px solid #ccc;
+    }
+
+    /* ---------------- HERO SECTION ---------------- */
+    .hero {
+        background-image: url(https://i.postimg.cc/13tfbfCb/mainback.jpg
+);
+        background-repeat: no-repeat;
+        background-position: 100%;
+        background-size: 100%;
+        padding: 120px 20px;
+        text-align: center;
+        color: #fff;
+        position: relative; /* needed for glass overlay */
+        overflow: hidden;
+    }
+
+    /* Glassmorphism overlay over hero background */
+    .hero::before {
+        
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+        backdrop-filter: blur(2px) saturate(120%);
+        -webkit-backdrop-filter: blur(2px) saturate(120%);
+        z-index: 0;
+        border: 1px solid rgba(255,255,255,0.25);
+        pointer-events: none;
+    }
+
+    /* Ensure hero content sits above the overlay */
+    .hero > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Glass panels for title and description for readability */
+    .hero h1,
+    .hero p {
+        display: inline-block;
+        padding: 12px 18px;
+        border-radius: 16px;
+    }
+    .hero h1 {
+        font-size: 52px;
+        font-weight: 800;
+        margin-bottom: 10px;
+    }
+    .hero h1 span { color: #f4a100; }
+    .hero p {
+        font-size: 18px;
+        max-width: 650px;
+        margin: auto;
+        opacity: 1;
+    }
+    .hero-buttons {
+        margin-top: 35px;
+    }
+    .hero-buttons button {
+        padding: 15px 32px;
+        font-size: 18px;
+        border-radius: 10px;
+        border: none;
+        margin: 10px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+    .hero-buttons .btn-sos.button2 {
+        background-color: #e63946;
+        color: white;
+    }
+    .btn-guide {
+        background: white;
+        color: #1a1a1a;
+    }
+
+    /* ---------------- CARD SECTIONS ---------------- */
+    .section-title {
+        text-align: center;
+        margin: 70px 0 20px;
+        font-size: 38px;
+        font-weight: 800;
+    }
+    .section-sub {
+        text-align: center;
+        font-size: 18px;
+        opacity: 0.8;
+        margin-bottom: 50px;
+    }
+
+    .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+        width: 90%;
+        margin: auto;
+    }
+
+    .card {
+        background: #fff;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    }
+    .card h3 {
+        margin-top: 10px;
+        font-size: 22px;
+        font-weight: 700;
+    }
+    .card p {
+        font-size: 15px;
+        opacity: 0.8;
+        margin-top: 6px;
+    }
+    .card button {
+        margin-top: 15px;
+        background: none;
+        border: none;
+        color: #133B76;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    .card .learn-more {
+        position: relative;
+        padding: 4px 0;
+        transition: transform .2s ease, color .2s ease;
+    }
+    .card .learn-more::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -2px;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, #133B76, #f4a100);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform .25s ease;
+    }
+    .card .learn-more::after {
+        content: "→";
+        margin-left: 8px;
+        display: inline-block;
+        transition: transform .2s ease;
+    }
+    .card .learn-more:hover {
+        transform: translateY(-1px);
+        color: #0b2d5f;
+    }
+    .card .learn-more:hover::before {
+        transform: scaleX(1);
+    }
+    .card .learn-more:hover::after {
+        transform: translateX(4px);
+    }
+    .card .icon {
+        margin-right: 8px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    /* ---------------- FOOTER ---------------- */
+    footer {
+        background: #112B54;
+        color: white;
+        padding: 50px 60px;
+        margin-top: 60px;
+    }
+    .footer-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 30px;
+    }
+    footer h4 {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+    footer p, footer a {
+        font-size: 14px;
+        opacity: 0.9;
+        text-decoration: none;
+        color: white;
+        line-height: 1.6;
+    }
+
+    #splash {
+        position: fixed;
+        inset: 0;
+        background: #000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+    }
+    #splash::before {
+        display: none;
+    }
+    #splash video {
+        max-width: 100%;
+        max-height: 100%;
+        filter: contrast(1.05) saturate(1.1) hue-rotate(-8deg);
+    }
+    .splash-hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity .6s ease, visibility .6s ease;
+    }
+    .ui-neon {
+        position: relative;
+        background: transparent;
+        color: var(--color);
+        border: 2px solid var(--color);
+        box-shadow: inset 0 0 0 rgba(0,0,0,0);
+        transition: all .25s ease;
+    }
+    .ui-neon:hover {
+        background: var(--color);
+        color: #fff;
+        box-shadow: 0 0 12px var(--color), 0 0 24px var(--color);
+        transform: translateY(-1px);
+    }
+    .ui-gradient {
+        background: linear-gradient(90deg, #e63946, #f4a100, #133B76);
+        background-size: 200% 200%;
+        color: #fff;
+        transition: background-position .4s ease, transform .2s ease, box-shadow .2s ease;
+    }
+    .ui-gradient:hover {
+        background-position: right center;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        transform: translateY(-1px);
+    }
+
+    .button2 {
+      display: inline-block;
+      transition: all 0.2s ease-in;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      color: #090909;
+      padding: 0.7em 1.7em;
+      cursor: pointer;
+      font-size: 18px;
+      border-radius: 0.5em;
+      background: #e8e8e8;
+      border: 1px solid #e8e8e8;
+      box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
+    }
+    .button2:active {
+      color: #666;
+      box-shadow: inset 4px 4px 12px #c5c5c5, inset -4px -4px 12px #ffffff;
+    }
+    .button2:before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%) scaleY(1) scaleX(1.25);
+      top: 100%;
+      width: 140%;
+      height: 180%;
+      background-color: rgba(0, 0, 0, 0.05);
+      border-radius: 50%;
+      display: block;
+      transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
+      z-index: -1;
+    }
+    .button2:after {
+      content: "";
+      position: absolute;
+      left: 55%;
+      transform: translateX(-50%) scaleY(1) scaleX(1.45);
+      top: 180%;
+      width: 160%;
+      height: 190%;
+      background-color: #009087;
+      border-radius: 50%;
+      display: block;
+      transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
+      z-index: -1;
+    }
+    .button2:hover {
+      color: #ffffff;
+      border: 1px solid #009087;
+    }
+    .button2:hover:before {
+      top: -35%;
+      background-color: #009087;
+      transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+    }
+    .button2:hover:after {
+      top: -45%;
+      background-color: #009087;
+      transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+    }
+
+
+
+/* GLOBAL STYLES */
+    body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #f5f7fb;
+    color: #1a1a1a;
+}
+
+/* NAVBAR */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 60px;
+    background: #ffffff;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.logo span {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.nav-links a {
+    margin: 0 15px;
+    font-weight: 500;
+    text-decoration: none;
+    color: #0a1f44;
+}
+
+.nav-links .active {
+    background: #0a1f44;
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: white;
+}
+
+.btn-emergency {
+    background: #e63946;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+}
+
+.btn-login {
+    background: #fff;
+    border: 1px solid #cccccc;
+    padding: 10px 16px;
+    border-radius: 8px;
+}
+
+/* Page Header */
+.page-header {
+        background-image: url('../images/RescueTeams.jpg');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        padding: 240px 20px;
+        background-position-y: 5%;
+        text-align: center;
+        color: #fff;
+        position: relative; /* needed for glass overlay */
+        overflow: hidden;
+    }
+
+    /* Glassmorphism overlay over hero background */
+    .page-header::before {
+        
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+        backdrop-filter: blur(1.3px) saturate(120%);
+        -webkit-backdrop-filter: blur(2px) saturate(120%);
+        z-index: 0;
+        border: 1px solid rgba(255,255,255,0.25);
+        pointer-events: none;
+    }
+
+    /* Ensure hero content sits above the overlay */
+    .page-header > * {
+        position: relative;
+        z-index: 1;
+    }
+
+.page-header h1 {
+    font-size: 60px;
+    font-weight: 800;
+}
+
+.page-header p {
+    font-size: 20px;
+    width: 650px;
+    margin: 10px auto;
+    opacity: 0.9;
+}
+
+/* Team Cards Layout */
+.teams-container {
+    width: 90%;
+    margin: auto;
+    padding-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+}
+
+/* Team Card */
+.team-card {
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+}
+
+.team-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    position: relative;
+}
+
+.team-header h2 {
+    font-size: 22px;
+    margin: 0;
+}
+
+.status {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.ready { background: #d4f5d4; color: #22893c; }
+.active { background: #d4f5d4; color: #22893c; }
+.oncall { background: #e3f0ff; color: #004aad; }
+.standby { background: #fff0c2; color: #9a6b00; }
+.alert { background: #fff0c2; color: #b15b00; }
+.volunteer { background: #d4f5d4; color: #22893c; }
+
+.tags span {
+    background: #eef1f7;
+    padding: 6px 12px;
+    border-radius: 8px;
+    margin: 5px;
+    display: inline-block;
+    font-size: 13px;
+}
+
+.team-footer {
+    border-top: 1px solid #e6e6e6;
+    margin-top: 15px;
+    padding-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contact-btn {
+    background: #ffffff;
+    border: 1px solid #ccc;
+    padding: 10px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* HELP SECTION */
+.help-section {
+    padding: 90px 0;
+    text-align: center;
+}
+
+.help-icon {
+    font-size: 48px;
+}
+
+.help-buttons {
+    margin-top: 20px;
+}
+
+.join-btn {
+    background: #0e2f66;
+    color: white;
+    padding: 14px 28px;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+}
+
+.donate-btn {
+    background: #fff;
+    color: #0e2f66;
+    border: 2px solid #0e2f66;
+    padding: 14px 28px;
+    border-radius: 10px;
+    margin-left: 15px;
+    font-size: 16px;
+}
+
+/* FOOTER */
+.footer {
+    background: #0e2f66;
+    color: white;
+    padding: 50px 60px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.footer-bottom {
+    text-align: center;
+    opacity: 0.7;
+    margin-top: 20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="nav-left">
+        🛡️ Disaster Rescue  
+    </div>
+    <div class="nav-menu">
+        <a href="./index.html">Home</a>
+        <a href="./typeOfDisaster.html">Types of Disasters</a>
+        <a href="./Emergency-guide.html">Emergency Guide</a>
+        <a href="./rescue-teams.html" class="active">Rescue Teams</a>
+        <a href="./safe-zones.html">Safe Zones</a>
+        <a href="./sos.html">SOS</a>
+    </div>
+    <div class="nav-buttons">
+        <button class="btn-emergency" onclick="location.href='./sos.html'">📞 Emergency</button>
+        <button class="btn-login">Login</button>
+    </div>
+</div>
+
+<!-- HEADER SECTION -->
+<section class="page-header">
+    <h1>Rescue Teams</h1>
+    <p>Dedicated teams working round the clock to save lives. Know who to reach when disaster strikes.</p>
+</section>
+
+<!-- MAIN CONTENT -->
+<div class="teams-container">
+
+    <!-- TEAM CARD TEMPLATE -->
+    <div class="team-card">
+        <div class="team-header">
+            <div class="icon">🛡️</div>
+            <div>
+                <h2>National Disaster Response Force (NDRF)</h2>
+                <p>India's specialized force for disaster response, trained for all types of emergencies.</p>
+            </div>
+            <span class="status ready">Always Ready</span>
+        </div>
+
+        <h3>Capabilities</h3>
+        <div class="tags">
+            <span>Search & Rescue</span>
+            <span>Medical First Response</span>
+            <span>Chemical & Biological Emergency</span>
+            <span>Building Collapse</span>
+        </div>
+
+        <div class="team-footer">
+            <p>📍 Pan India – 16 Battalions</p>
+            <button class="contact-btn">📞 011-24363260</button>
+        </div>
+    </div>
+
+    <!-- SDRF -->
+    <div class="team-card">
+        <div class="team-header">
+            <div class="icon">👥</div>
+            <div>
+                <h2>State Disaster Response Force (SDRF)</h2>
+                <p>State-level response units providing immediate on-ground support.</p>
+            </div>
+            <span class="status active">Active</span>
+        </div>
+
+        <h3>Capabilities</h3>
+        <div class="tags">
+            <span>Flood Rescue</span>
+            <span>Fire Fighting Support</span>
+            <span>Evacuation</span>
+            <span>First Aid</span>
+        </div>
+
+        <div class="team-footer">
+            <p>📍 All States</p>
+            <button class="contact-btn">📞 State Emergency Numbers</button>
+        </div>
+    </div>
+
+    <!-- Indian Army -->
+    <div class="team-card">
+        <div class="team-header">
+            <div class="icon">🛡️</div>
+            <div>
+                <h2>Indian Army Disaster Relief</h2>
+                <p>Military relief teams providing evacuation, rescue, and infrastructure repair.</p>
+            </div>
+            <span class="status oncall">On Call</span>
+        </div>
+
+        <h3>Capabilities</h3>
+        <div class="tags">
+            <span>Large Scale Evacuation</span>
+            <span>Airlift Operations</span>
+            <span>Bridge Building</span>
+            <span>Supply Distribution</span>
+        </div>
+
+        <div class="team-footer">
+            <p>📍 Deployed as needed</p>
+            <button class="contact-btn">📞 Through District Administration</button>
+        </div>
+    </div>
+
+    <!-- Air Force -->
+    <div class="team-card">
+        <div class="team-header">
+            <div class="icon">✈️</div>
+            <div>
+                <h2>Indian Air Force Rescue</h2>
+                <p>Helicopter rescue, supply airdrops, and mission support in inaccessible areas.</p>
+            </div>
+            <span class="status standby">Standby</span>
+        </div>
+
+        <h3>Capabilities</h3>
+        <div class="tags">
+            <span>Aerial Rescue</span>
+            <span>Medical Evacuation</span>
+            <span>Supply Air Drops</span>
+            <span>Disaster Assessment</span>
+        </div>
+
+        <div class="team-footer">
+            <p>📍 Air Bases Nationwide</p>
+            <button class="contact-btn">📞 Through Emergency Services</button>
+        </div>
+    </div>
+
+    <!-- Coast Guard -->
+    <div class="team-card">
+        <div class="team-header">
+            <div class="icon">⚓</div>
+            <div>
+                <h2>Indian Coast Guard</h2>
+                <p>Maritime search & rescue, sea evacuation, and coastal emergency operations.</p>
+            </div>
+            <span class="status ready">24/7 Operations</span>
+        </div>
+
+        <h3>Capabilities</h3>
+        <div class="tags">
+            <span>Sea Rescue</span>
+            <span>Oil Spill Response</span>
+            <span>Coastal Evacuation</span>
+            <span>Maritime Emergencies</span>
+        </div>
+
+        <div class="team-footer">
+            <p>📍 All Coastal States</p>
+            <button class="contact-btn">📞 1554</button>
+        </div>
+    </div>
+
+    <!-- Fire Dept -->
+    <div class="team-card">
+        <div class="team-header">
+            <div class="icon">🚒</div>
+            <div>
+                <h2>Fire & Emergency Services</h2>
+                <p>Fire fighting, building rescues, hazardous material response.</p>
+            </div>
+            <span class="status active">24/7 Active</span>
+        </div>
+
+        <h3>Capabilities</h3>
+        <div class="tags">
+            <span>Fire Fighting</span>
+            <span>Building Rescue</span>
+            <span>HAZMAT Response</span>
+            <span>Accident Response</span>
+        </div>
+
+        <div class="team-footer">
+            <p>📍 All Cities & Towns</p>
+            <button class="contact-btn">📞 101</button>
+        </div>
+    </div>
+
+    <!-- Mountain Rescue -->
+    <div class="team-card">
+        <div class="team-header">
+            <div class="icon">⛰️</div>
+            <div>
+                <h2>Mountain Rescue Teams</h2>
+                <p>High-altitude rescue units for mountain accidents and treks.</p>
+            </div>
+            <span class="status alert">Seasonal Alert</span>
+        </div>
+
+        <h3>Capabilities</h3>
+        <div class="tags">
+            <span>High Altitude Rescue</span>
+            <span>Avalanche Response</span>
+            <span>Trekker Rescue</span>
+            <span>Mountaineering Accidents</span>
+        </div>
+
+        <div class="team-footer">
+            <p>📍 Himalayan States, Western Ghats</p>
+            <button class="contact-btn">📞 Local Police Control Room</button>
+        </div>
+    </div>
+
+    <!-- Civil Defence -->
+    <div class="team-card">
+        <div class="team-header">
+            <div class="icon">🏢</div>
+            <div>
+                <h2>Civil Defence</h2>
+                <p>Volunteer groups supporting official agencies during emergencies.</p>
+            </div>
+            <span class="status volunteer">Volunteer Force</span>
+        </div>
+
+        <h3>Capabilities</h3>
+        <div class="tags">
+            <span>Evacuation Support</span>
+            <span>Shelter Management</span>
+            <span>First Aid</span>
+            <span>Communication</span>
+        </div>
+
+        <div class="team-footer">
+            <p>📍 All Districts</p>
+            <button class="contact-btn">📞 District Collector Office</button>
+        </div>
+    </div>
+
+</div>
+
+<!-- WANT TO HELP SECTION -->
+<section class="help-section">
+    <div class="help-box">
+        <div class="help-icon">❤️</div>
+        <h2>Want to Help?</h2>
+        <p>Volunteer with rescue teams and support organizations. Your contribution can save lives.</p>
+
+        <div class="help-buttons">
+            <button class="join-btn" onclick="window.location.href='https://civildefencewarriors.gov.in/'">👥 Join Civil Defence</button>
+            <button class="donate-btn" onclick="window.location.href='https://www.reliefweb.int/'">♡ Donate to Relief</button> 
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-grid">
+        <div>
+            <h3>🛡️ Disaster Rescue</h3>
+            <p>Providing critical emergency response information for saving lives.</p>
+        </div>
+
+        <div>
+            <h4>Quick Links</h4>
+            <p>Types of Disasters</p>
+            <p>Emergency Guide</p>
+            <p>Rescue Teams</p>
+            <p>Safe Zones</p>
+        </div>
+
+        <div>
+            <h4>Emergency Numbers</h4>
+            <p>112 – Emergency</p>
+            <p>101 – Fire</p>
+            <p>102 – Ambulance</p>
+            <p>100 – Police</p>
+        </div>
+
+        <div>
+             <h4>Contact Us</h4>
+            <p>Exception Handlers Team⬇️</p>
+            <p>1. Aniket Jagdale</p>
+            <p>2. Yogesh Ingulkar</p>
+            <p>3. Shubham Gavli</p>
+            <p>4. Dipak Khedkar</p>
+            <p>5. Aditya Sadekar</p>
+        </div>
+        </div>
+    </div>
+
+    <p class="footer-bottom">© 2025 Disaster Rescue Center — Saving lives, one emergency at a time.</p>
+</footer>
+
+</body>
+</html>
