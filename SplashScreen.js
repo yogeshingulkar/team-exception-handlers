@@ -1,3 +1,4 @@
+
 export function SplashScreen() {
     return `
         <div id="splash" class="splash-overlay">
