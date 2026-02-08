@@ -1,5 +1,7 @@
 export function SplashScreen() {
+
     return `
+    
         <div id="splash" class="splash-overlay">
             <video
                 id="splash-video"
@@ -13,3 +15,5 @@ export function SplashScreen() {
         </div>
     `;
 }
+
+
